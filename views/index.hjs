@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body>
+    <h1>{{title}}</h1>
+    <hr>
+    <h2>Cookie: {{cookie}}</h2>
+    <hr>
+    {{> user_login}}
+    <hr>
+    {{#authenticated}}
+    <p><a href='/holdings'>Holdings</a></p>
+    <p><a href='/holdings/funds'>Holdings/funds [gráfico del patrimonio de los fondos]</a></p>
+    <p><a href='/holdings/timeseries'>Holdings/Timeseries</a></p>
+    <p><a href='/transactions'>Transactions</a></p>
+    <p><a href='/banks'>Banks</a></p>
+    <p><a href='/mifunds'>Funds (los mios, el endpoint nuevo)</a></p>
+    <p><a href='/miequities'>Equities (los mios, el endpoint nuevo)</a></p>
+    <p><a href='/miplans'>Plans (los mios, el endpoint nuevo)</a></p>
+    <p><a href='/funds'>Funds (los community funds)</a></p>
+    <hr>
+    <ul>
+      <li><a href='/community/returns?productType=100'>Community/returns?productType=100</a></li>
+      <li><a href='/community/returns?productType=200'>Community/returns?productType=200</a></li>
+      <li><a href='/community/returns?productType=400'>Community/returns?productType=400</a></li>
+      <li><a href='/community/returns?productType=500'>Community/returns?productType=500</a></li>
+    </ul>
+    <ul>
+      <li><a href='/community/assets'>Community/assets</a></li>
+    </ul>
+    <ul>
+      <li><a href='/community/categories/assets?scope=broad&assetType=RF'>Community/categories/assets?scope=broad&assetType=RF</a></li>
+      <li><a href='/community/categories/assets?scope=global&assetType=RF'>Community/categories/assets?scope=global&assetType=RF</a></li>
+      <li><a href='/community/categories/assets?scope=regular&assetType=RF'>Community/categories/assets?scope=regular&assetType=RF</a></li>
+      <li><a href='/community/categories/assets?scope=broad&assetType=PP'>Community/categories/assets?scope=broad&assetType=PP</a></li>
+      <li><a href='/community/categories/assets?scope=global&assetType=PP'>Community/categories/assets?scope=global&assetType=PP</a></li>
+      <li><a href='/community/categories/assets?scope=regular&assetType=PP'>Community/categories/assets?scope=regular&assetType=PP</a></li>
+    </ul>
+    <ul>
+      <li><a href='/community/funds/rankings?by=popularity&assetType=RF'>Community/funds/rankings?by=popularity&assetType=RF</a></li>
+      <li><a href='/community/funds/rankings?by=investment&assetType=RF'>Community/funds/rankings?by=investment&assetType=RF</a></li>
+      <li><a href='/community/funds/rankings?by=popularity&assetType=PP'>Community/funds/rankings?by=popularity&assetType=PP</a></li>
+      <li><a href='/community/funds/rankings?by=investment&assetType=PP'>Community/funds/rankings?by=investment&assetType=PP</a></li>
+    </ul>
+    {{/authenticated}}
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>

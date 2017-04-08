@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body>
+    <h1>{{title}}</h1>
+    <table>
+      <tr>
+        <td>bank</td>
+        <td>cuenta</td>
+        <td>tipo de cuenta</td>
+        <td>idSecurity</td>
+        <td>isin</td>
+        <td>units</td>
+        <td>productTypeId</td>
+        <td>originDescription</td>
+        <td>valueBaseCurrency</td>
+        <td>updateDate</td>
+      </td>
+      {{#holdings}}
+        <tr>
+          <td>{{holdingAccount.description}}</td>
+          <td>{{holdingAccount.alias}}</td>
+          <td>{{holdingAccount.type}}</td>
+          {{#asset.idSecurity}}
+          <td>
+            <a href='https://api.finect.com/v1/market/funds/class/{{asset.idSecurity}}?detail=verbose'>metadata: {{asset.idSecurity}}</a>
+            <br>
+            <a href='https://api.finect.com/v2/market/funds/classes/{{asset.idSecurity}}/timeseries/return'>timeseries</a>
+          </td>
+          {{/asset.idSecurity}}
+          {{^asset.idSecurity}}
+            <td></td>
+          {{/asset.idSecurity}}
+          <td>{{asset.isin}}</td>
+          <td>{{asset.units}}</td>
+          <td>{{asset.productTypeId}}</td>
+          <td>{{asset.originDescription}}</td>
+          <td>{{asset.valueBaseCurrency}}</td>
+          <td>{{asset.updateDate}}</td>
+        </tr>
+      {{/holdings}}
+    </table>
+  </body>
+</html>

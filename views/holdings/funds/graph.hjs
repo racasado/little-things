@@ -1,0 +1,124 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body>
+    <h1>{{title}}</h1>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <div id='chart' style='height:400px;width:800px;'></div>
+
+    <table>
+      <tr>
+        <td>bank</td>
+        <td>idSecurity</td>
+        <td>isin</td>
+        <td>units</td>
+        <td>originDescription</td>
+        <td>valueBaseCurrency</td>
+      </td>
+      {{#funds}}
+        <tr>
+          <td>{{holdingAccount.description}}</td>
+          {{#asset.idSecurity}}
+          <td>
+            <a href='https://api.finect.com/v1/market/funds/class/{{asset.idSecurity}}?detail=verbose'>metadata: {{asset.idSecurity}}</a>
+            <br>
+            <a href='https://api.finect.com/v2/market/funds/classes/{{asset.idSecurity}}/timeseries/return'>timeseries</a>
+          </td>
+          {{/asset.idSecurity}}
+          {{^asset.idSecurity}}
+            <td></td>
+          {{/asset.idSecurity}}
+          <td>{{asset.isin}}</td>
+          <td>{{asset.units}}</td>
+          <td>{{asset.originDescription}}</td>
+          <td>{{asset.valueBaseCurrency}}</td>
+        </tr>
+      {{/funds}}
+    </table>
+
+
+
+    <script>
+    const holdings = {{{holdings}}};
+
+    var miny = Number.MAX_VALUE;
+    var maxy = Number.MIN_VALUE;
+
+    holdings.forEach(function(element, index, array) {
+      const euros = parseFloat(element.valueBaseCurrency);
+      const data = element.timeseries;
+      const npv = 1 + data[data.length-1].value/100;
+
+      var inner_miny = d3.min(data, function(d) { return euros/npv*(1+(parseFloat(d.value)/100)); });
+      var inner_maxy = d3.max(data, function(d) { return euros/npv*(1+(parseFloat(d.value)/100)); });
+
+      if(inner_miny < miny) {
+        miny = inner_miny;
+      }
+
+      if(inner_maxy > maxy) {
+        maxy = inner_maxy;
+      }
+    });
+
+    var margin       = {top: 10, right: 15, bottom: 30, left: 80},
+        height       = 400 - margin.top - margin.bottom,
+        width        = 800 - margin.left - margin.right;
+
+
+    var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+    var x = d3.time.scale().range([0, width]);
+    x.domain([parseDate(holdings[0].timeseries[0].date), parseDate(holdings[0].timeseries[holdings[0].timeseries.length-1].date)]);
+
+    var y = d3.scale.linear().range([height, 0]);
+    y.domain([miny, maxy]);
+
+    var svg = d3.select("#chart").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var colors = ['#5154C5','#FF8093','#FAFCFF','#D1D8E2','#2E2E33','#074285','#00187B','#285964','#405F83','#416545','#4D7069','#6E9985','#7EBC89','#0283AF','#79BCBF','#99C19E'];
+
+    svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0, 0)")
+    .call(
+      d3.svg.axis()
+      .scale(y)
+      .orient("left")
+    );
+
+    svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0," + (height) + ")")
+    .call(
+      d3.svg.axis()
+      .scale(x)
+      .orient("bottom")
+    );
+
+
+    holdings.forEach(function(element, index, array) {
+      const euros = parseFloat(element.valueBaseCurrency);
+      const data = element.timeseries;
+      const npv = 1 + data[data.length-1].value/100;
+
+      var line = d3.svg.line()
+          .x(function(d) { return x(parseDate(d.date)); })
+          .y(function(d) { return y(euros/npv*(1+(parseFloat(d.value)/100))); });
+
+      svg.append("path")
+        .datum(data)
+        .attr("d", line)
+        .style("stroke",colors[index])
+        .style("stroke-width",3);
+
+    });
+
+    </script>
+  </body>
+</html>

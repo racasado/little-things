@@ -1,0 +1,49 @@
+
+.btn {
+    height: 48px;
+    display: inline-block;
+    line-height: 48px;
+    font-size: 16px;
+    border-radius: 4px;
+    color: #fff;
+    border: 1px solid #9799d7;
+    text-decoration: none;
+    text-align: center;
+    padding: 0 16px;
+    transition: all 0.15s ease-in;
+}
+
+.btn.btn-blue {
+    background-color: #5154c5;
+    color: #fff;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px dotted silver;
+    padding:5px;
+    text-align: center;
+}
+
+div#chart{
+  background-color: #ecf2ff;
+}
+
+body { font: 12px Arial;}
+
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}

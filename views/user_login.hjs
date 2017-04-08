@@ -1,0 +1,6 @@
+{{#authenticated}}
+<p>You are logged in!!!</p>
+{{/authenticated}}
+{{^authenticated}}
+<p><a class='btn btn-blue' href='https://login.finect.com/dialog/authorize?redirect_uri=http://{{endpoint}}/oauth&response_type=code&client_id={{client}}&scope=all&state=eGhyYXRkZnI='>Login with Finect</a></p>
+{{/authenticated}}
